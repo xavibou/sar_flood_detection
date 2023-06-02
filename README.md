@@ -1,4 +1,4 @@
-# Flood detectuib
+# Flood detection using SAR image time-series
 
 Flood detection method based on the background subtraction algorithm ViBe [1], which builds a model of past water and non water events in order to segment flooded areas given SAR (Sentinel-1) time series. The built model records past observed water and non water events, which are computed by speckle filtering, thresholding and connected components filtering.
 
