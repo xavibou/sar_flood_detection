@@ -63,12 +63,10 @@ class TemporalMMFloodDataset(Dataset):
         if return_first:
             return transforms.ToTensor()(self.read_tif(os.path.join(path, files[0])))
         
-        tifs = transforms.ToTensor()(self.read_tif(os.path.join(path, files[0]))).unsqueeze(0)
-
-        for f in files[1:]:
-            transforms.ToTensor()(self.read_tif(os.path.join(path, f)))
-            tifs = torch.cat([tifs, transforms.ToTensor()(self.read_tif(os.path.join(path, f))).unsqueeze(0)], dim=0)
-        return tifs
+        tifs = []
+        for f in files:
+            tifs.append(transforms.ToTensor()(self.read_tif(os.path.join(path, f))))
+        return torch.stack(tifs)
 
     def __getitem__(self, idx):
         item = self.itemslist[idx]
@@ -89,11 +87,11 @@ class TemporalMMFloodDataset(Dataset):
         '''
         Retrieve a scene time series by its mmflod id (e.g. 417)
         '''
-        item = 'EMSR' + str(id) + '-0'
-        s1 = self.read_tifs_in_file(os.path.join(self.root_dir, item, 's1', item+'-0'))
+        s1 = self.read_tifs_in_file(os.path.join(self.root_dir, 's1', id))
 
         if self.transform:
             s1 = self.transform(s1)
+
 
         return s1
 

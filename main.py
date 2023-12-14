@@ -9,12 +9,10 @@ from datasets.mmflood_datamodule import TemporalMMFloodDataModule
 
 # Argument Parser
 parser = argparse.ArgumentParser(description='Learning KMLE GMM')
-parser.add_argument('--data_path', type=str, default='/mnt/ddisk/boux/code/data/cdnet/dynamic_background/fall',
+parser.add_argument('--data_path', type=str,
                     help='Path to the directory containing the train data')
-parser.add_argument('--save_path', type=str, default='/mnt/ddisk/boux/code/predictions/fgmm',
+parser.add_argument('--save_path', type=str,
                     help='Path to the directory to save the parameters')
-parser.add_argument('--id', type=int, nargs='+',
-                    help='ID to the scene to analyse')
 parser.add_argument('--thr', type=float, default=0.03,
                     help='Threshold for SAR water segmentation')
 parser.add_argument('--num_components', type=int, default=20,
@@ -50,10 +48,15 @@ def get_data(args, id):
 
 def main():
 
-    # Perform flood detection for each scene provided (by id)
-    for id in args.id:
-        item = 'EMSR' + str(id) + '-0'
-        print("Starting flood detection on time series {}".format(item))
+    # Check if the data path has a 's1' directory. If not, it is part of the training set and we return
+    if not os.path.exists(os.path.join(args.data_path, 's1')):
+        print("The data path does not contain a 's1' directory. This is a training sample. Skipping...")
+        return
+        
+    ids = os.listdir(os.path.join(args.data_path, 's1'))
+    for id in ids:
+
+        print("Starting flood detection on time series {}".format(id))
 
         start_time = time.time()
 
@@ -61,16 +64,16 @@ def main():
         data = get_data(args, id)
 
         detect_floods(data,
-                    os.path.join(args.save_path, item),
-                    thr=args.thr,
-                    num_components=args.num_components,
-                    band=args.band,
-                    sample_num=args.sample_num,
-                    min_c=args.min_c,
-                    init_noise_perc=args.init_noise_perc,
-                    init_frames=args.init_frames
-                    )
-        
+                os.path.join(args.save_path, id[:-2], id),
+                thr=args.thr,
+                num_components=args.num_components,
+                band=args.band,
+                sample_num=args.sample_num,
+                min_c=args.min_c,
+                init_noise_perc=args.init_noise_perc,
+                init_frames=args.init_frames
+                )
+    
         total_time, measure = compute_time(start_time, time.time())
         print("\nTotal processing time: {:.4f} {}\n".format(total_time, measure))
 
