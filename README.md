@@ -1,6 +1,12 @@
 # Portraying the Need for Temporal Data in Flood Detection via Sentinel-1
 
-This is the official implementation of "Portraying the Need for Temporal Data in Flood Detection via Sentinel-1", presented at [IGARSS24](https://www.2024.ieeeigarss.org/)🌍. The full paper ia available [here](https://arxiv.org/abs/2403.03671).
+[Xavier Bou](https://xavibou.github.io/), [Thibaud Ehret](https://tehret.github.io), [Rafael Grompone](https://scholar.google.fr/citations?user=GLovf4UAAAAJ&hl=en), [Jeremy Anger](https://github.com/kidanger), 
+
+Centre Borelli, ENS Paris-Saclay and Kayrros.
+
+---
+
+This repository is the official implementation of the paper [Portraying the Need for Temporal Data in Flood Detection via Sentinel-1](https://arxiv.org/abs/2403.03671).
 
 Identifying flood affected areas in remote sensing data is a critical problem in earth observation to analyze flood impact and drive responses. While a number of methods have been proposed in the literature, there are two main limitations in available flood detection datasets: (1) a lack of region variability is commonly observed and/or (2) they require to distinguish permanent water bodies from flooded areas from a single image, which becomes an ill-posed setup. Consequently, we extend the globally diverse MMFlood dataset [1] to multidate by providing one year of Sentinel-1 observations around each flood event. To our surprise, we notice that the definition of flooded pixels in MMFlood is inconsistent when observing the entire image sequence. Hence, we re-frame the flood detection task as a temporal anomaly detection problem, where anomalous water bodies are segmented from a Sentinel-1 temporal sequence. From this definition, we provide a simple method inspired by the popular video change detector ViBe [2], results of which quantitatively align with the SAR image time series, providing a reasonable baseline for future works.
 
