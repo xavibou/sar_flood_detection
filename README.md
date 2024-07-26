@@ -21,6 +21,7 @@ Identifying flood affected areas in remote sensing data is a critical problem in
     torch
     pillow
     opencv-python
+    pytorch-lightning
 
 ## Data
 You can download the extended multi-date **Temporal MMFlood** from the following [link](https://zenodo.org/records/12805033). Timeseries are provided only for the test set EMSR events of MMFlood (except EMSR162).
